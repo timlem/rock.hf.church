@@ -1,0 +1,180 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" Inherits="Rock.Web.UI.RockMasterPage" %>
+
+<%@ Import Namespace="System.Web.Optimization" %>
+<!DOCTYPE html>
+
+<script runat="server">
+
+    // keep code below to call base class init method
+
+    /// <summary>
+    /// Raises the <see cref="E:System.Web.UI.Control.Init" /> event.
+    /// </summary>
+    /// <param name="e">An <see cref="T:System.EventArgs" /> object that contains the event data.</param>
+    protected override void OnInit( EventArgs e )
+    {
+        base.OnInit( e );
+    }
+
+    protected void Page_Load( object sender, EventArgs e )
+    {
+        if ( Page.IsPostBack )
+        {
+            if ( searchBarDesktop.Value != string.Empty && searchBarDesktop.Value != "Search" )
+            {
+                Response.Redirect( String.Format( "/search?s={0}", searchBarDesktop.Value ) );
+            }
+        }
+    }
+
+</script>
+
+<html class="no-js">
+<head runat="server">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=10" />
+    <meta charset="utf-8">
+    <title></title>
+
+    <script src="<%# ResolveRockUrl("~/Scripts/jquery-1.12.4.min.js" ) %>"></script>
+
+    <!-- Set the viewport width to device width for mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <asp:ContentPlaceHolder ID="css" runat="server" />
+
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900100italic,200italic,300italic,400italic,500italic,600italic,700italic,800italic,900italic&subset=latin" type="text/css" media="all" />
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=PT Sans:100,200,300,400,500,600,700,800,900100italic,200italic,300italic,400italic,500italic,600italic,700italic,800italic,900italic&subset=latin" type="text/css" media="all" />
+    <!-- Included CSS Files -->
+    <link rel="stylesheet" href="<%# ResolveRockUrl("~~/Styles/bootstrap.css", true) %>" />
+    <link rel="stylesheet" href="<%# ResolveRockUrl("~~/Styles/theme.css", true) %>" />
+
+    <script src="<%# ResolveRockUrl("~/Scripts/modernizr.js" ) %>"></script>
+    <script src="<%# ResolveRockUrl("~~/Scripts/churchonline.js" ) %>"></script>
+    <script src="<%# ResolveRockUrl("~~/Scripts/scripts.js" ) %>"></script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-KS43TV');</script>
+    <!-- End Google Tag Manager -->
+    <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
+
+    <!-- Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="<%# ResolveRockUrl("~/Content/ExternalSite/Icons/apple-touch-icon.png", true) %>">
+    <link rel="icon" type="image/png" sizes="32x32" href="<%# ResolveRockUrl("~/Content/ExternalSite/Icons/favicon-32x32.png", true) %>">
+    <link rel="icon" type="image/png" sizes="16x16" href="<%# ResolveRockUrl("~/Content/ExternalSite/Icons/favicon-16x16.png", true) %>">
+    <link rel="manifest" href="<%# ResolveRockUrl("~/Content/ExternalSite/Icons/manifest.json", true) %>">
+    <link rel="mask-icon" href="<%# ResolveRockUrl("~/Content/ExternalSite/Icons/safari-pinned-tab.svg", true) %>" color="#5bbad5">
+    <link rel="shortcut icon" href="<%# ResolveRockUrl("~/Content/ExternalSite/Icons/favicon.ico", true) %>">
+    <meta name="msapplication-config" content="<%# ResolveRockUrl("~/Content/ExternalSite/Icons/browserconfig.xml", true) %>">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body runat="server" id="body">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KS43TV"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <form id="form1" runat="server">
+
+        <!-- Page Header -->
+        <div class="container-fluid navbar navbar-inverse navbar-topbar">
+            <div class="row">
+                <div class="col-sm-7 left">
+                    <Rock:Zone Name="TopBar Content" runat="server" />
+                </div>
+                <div class="col-sm-5 right">
+                    <Rock:Zone Name="TopBar Social" runat="server" />
+                </div>
+            </div>
+        </div>
+
+        <header id="siteHeader" runat="server">
+
+            <!-- Brand Bar -->
+            <nav class="navbar navbar-hlf" data-spy="affix" data-offset-top="45">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                            <i class="fa fa-bars"></i>&nbsp;Menu
+                        </button>
+                        <Rock:Zone Name="Header" runat="server" />
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <!-- Main Navigation -->
+                        <div id="search" class="search pull-right">
+                            <label for="searchBarDesktop" class="fa fa-search" aria-hidden="true"></label>
+                            <input type="text" id="searchBarDesktop" runat="server" name="s" class="searchBar" placeholder="What are you looking for?">
+                            <button type="submit" class="searchBarMobile"><span class="fa fa-search"></span></button>
+                        </div>
+                        <div class="pull-right">
+                            <Rock:Zone Name="Login" runat="server" />
+                        </div>
+                        <Rock:Zone Name="Navigation" runat="server" />
+                    </div>
+                </div>
+            </nav>
+
+        </header>
+
+        <asp:ContentPlaceHolder ID="feature" runat="server"></asp:ContentPlaceHolder>
+
+        <asp:ContentPlaceHolder ID="main" runat="server"></asp:ContentPlaceHolder>
+
+        <footer>
+            <div class="footer-links">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-3">
+                            <Rock:Zone Name="Footer A" runat="server" />
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <Rock:Zone Name="Footer B" runat="server" />
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <Rock:Zone Name="Footer C" runat="server" />
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <Rock:Zone Name="Footer D" runat="server" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <Rock:Zone Name="Footer" runat="server" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </footer>
+
+        <a href="#top" id="site-scroll-top" aria-hidden="true" class="scroll-top" data-spy="affix" data-offset-top="300"><span class="fa fa-angle-up"></span></a>
+
+        <%-- controls for scriptmanager and update panel --%>
+        <asp:ScriptManager ID="sManager" runat="server" />
+        <asp:UpdateProgress ID="updateProgress" runat="server" DisplayAfter="800">
+            <ProgressTemplate>
+                <div class="updateprogress-status">
+                    <div class="spinner">
+                        <div class="rect1"></div>
+                        <div class="rect2"></div>
+                        <div class="rect3"></div>
+                        <div class="rect4"></div>
+                        <div class="rect5"></div>
+                    </div>
+                </div>
+                <div class="updateprogress-bg modal-backdrop"></div>
+            </ProgressTemplate>
+        </asp:UpdateProgress>
+
+    </form>
+
+</body>
+
+</html>
