@@ -1,0 +1,325 @@
+﻿@color_socialtext_default: #999;
+@color_twitter: #00aced;
+@color_facebook: #3b5998;
+@color_pinterest: #cb2027;
+@color_googleplus: #dd4b39;
+@color_linkedin: #4875b4;
+@color_socialtext_btn: #fff;
+@border_bottom_color_1: transparent;
+
+ul.wpex-social-share {
+	list-style: none;
+}
+.social-share-button-text {
+	font-size: 13px;
+}
+.wpex-social-share {
+	li {
+		display: block;
+		text-decoration: none;
+		a {
+			color: @color_socialtext_default;
+			text-align: center;
+			font-size: 1.077em;
+			transition: all .15s ease;
+			&:hover {
+				background: #f7f7f7;
+			}
+		}
+	}
+	a {
+		display: block;
+		text-decoration: none;
+		&:hover {
+			text-decoration: none;
+		}
+	}
+	li.share-twitter {
+		a {
+			&:hover {
+				color: @color_twitter;
+			}
+		}
+	}
+	li.share-facebook {
+		a {
+			&:hover {
+				color: @color_facebook;
+			}
+		}
+	}
+	li.share-pinterest {
+		a {
+			&:hover {
+				color: @color_pinterest;
+			}
+		}
+	}
+	li.share-googleplus {
+		a {
+			&:hover {
+				color: @color_googleplus;
+			}
+		}
+	}
+	li.share-linkedin {
+		a {
+			&:hover {
+				color: @color_linkedin;
+			}
+		}
+	}
+}
+.wpex-social-share-wrap.position-vertical {
+	.social-share-title {
+		display: none;
+	}
+}
+.wpex-social-share-wrap.position-fixed-v {
+	.social-share-title {
+		display: none;
+	}
+}
+.blog-entry {
+	.social-share-title {
+		display: none;
+	}
+}
+.wpex-social-share.position-vertical {
+	position: absolute;
+	top: 0;
+	left: -55px;
+	z-index: 9;
+	width: 35px;
+	list-style: none;
+	margin: 0;
+	li {
+		float: left;
+		a {
+			border: 1px solid #e4e4e4;
+			border-top: 0;
+			width: 35px;
+			height: 35px;
+			line-height: 35px;
+		}
+	}
+	.social-share-button-text {
+		display: none;
+	}
+}
+.wpex-social-share.position-vertical.style-minimal {
+	border-top: 1px solid #e4e4e4;
+}
+.wpex-social-share.position-horizontal {
+	margin: 0 auto;
+	li {
+		float: left;
+		margin: 0 5px 5px 0;
+		border: 0;
+		a {
+			color: @color_socialtext_default;
+			padding: .3em .9em;
+			border: 1px solid #e4e4e4;
+		}
+		.fa {
+			margin-right: 5px;
+		}
+	}
+}
+.wpex-social-share.position-vertical.style-flat {
+	li {
+		&:first-child {
+			border-top: 0;
+		}
+	}
+}
+.wpex-social-share.style-flat {
+	li {
+		a {
+			color: @color_socialtext_btn !important;
+			border: 0 !important;
+			border-radius: 2px;
+		}
+		margin-bottom: 3px;
+	}
+	li.share-twitter {
+		a {
+			background: @color_twitter;
+			&:hover {
+				background: #0093cb;
+			}
+		}
+	}
+	li.share-facebook {
+		a {
+			background: @color_facebook;
+			&:hover {
+				background: #324b80;
+			}
+		}
+	}
+	li.share-pinterest {
+		a {
+			background: @color_pinterest;
+			&:hover {
+				background: #ae1b21;
+			}
+		}
+	}
+	li.share-googleplus {
+		a {
+			background: @color_googleplus;
+			&:hover {
+				background: #d03724;
+			}
+		}
+	}
+	li.share-linkedin {
+		a {
+			background: @color_linkedin;
+			&:hover {
+				background: #3e659c;
+			}
+		}
+	}
+}
+.wpex-social-share.position-vertical.style-three-d {
+	li {
+		&:first-child {
+			border-top: 0;
+		}
+	}
+}
+.wpex-social-share.style-three-d {
+	li {
+		a {
+			color: @color_socialtext_btn !important;
+			border: 0;
+			border-bottom: 3px solid rgba(0,0,0,0.25);
+			border-radius: 2px;
+			&:active {
+				border-bottom-color: @border_bottom_color_1;
+			}
+		}
+		margin-bottom: 3px;
+	}
+	li.share-twitter {
+		a {
+			background: @color_twitter;
+			&:hover {
+				background: #0093cb;
+			}
+		}
+	}
+	li.share-facebook {
+		a {
+			background: @color_facebook;
+			&:hover {
+				background: #324b80;
+			}
+		}
+	}
+	li.share-pinterest {
+		a {
+			background: @color_pinterest;
+			&:hover {
+				background: #ae1b21;
+			}
+		}
+	}
+	li.share-googleplus {
+		a {
+			background: @color_googleplus;
+			&:hover {
+				background: #d03724;
+			}
+		}
+	}
+	li.share-linkedin {
+		a {
+			background: @color_linkedin;
+			&:hover {
+				background: #3e659c;
+			}
+		}
+	}
+}
+.wpex-social-share.style-rounded {
+	li {
+		margin-bottom: 10px;
+		margin-right: 10px;
+		a {
+			font-size: 1em;
+			padding: .462em 1.692em;
+			border: 2px solid #eee;
+			border-radius: 2px;
+			transition: all .2s ease;
+			border-radius: 99px;
+			-moz-border-radius: 99px;
+			-webkit-border-radius: 99px;
+		}
+	}
+	li.share-twitter {
+		a {
+			border-color: @color_twitter;
+			color: @color_twitter;
+			&:hover {
+				background: @color_twitter;
+				color: @color_socialtext_btn;
+			}
+		}
+	}
+	li.share-facebook {
+		a {
+			border-color: @color_facebook;
+			color: @color_facebook;
+			&:hover {
+				background: @color_facebook;
+				color: @color_socialtext_btn;
+			}
+		}
+	}
+	li.share-pinterest {
+		a {
+			border-color: @color_pinterest;
+			color: @color_pinterest;
+			&:hover {
+				background: @color_pinterest;
+				color: @color_socialtext_btn;
+			}
+		}
+	}
+	li.share-googleplus {
+		a {
+			border-color: @color_googleplus;
+			color: @color_googleplus;
+			&:hover {
+				background: @color_googleplus;
+				color: @color_socialtext_btn;
+			}
+		}
+	}
+	li.share-linkedin {
+		a {
+			border-color: @color_linkedin;
+			color: @color_linkedin;
+			&:hover {
+				background: @color_linkedin;
+				color: @color_socialtext_btn;
+			}
+		}
+	}
+}
+.wpex-social-share.style-rounded.position-vertical {
+	li {
+		a {
+			padding: 0;
+			height: 35px;
+			line-height: 35px;
+			font-size: 14px;
+			box-sizing: content-box;
+			-moz-box-sizing: content-box;
+			-webkit-box-sizing: content-box;
+		}
+	}
+}

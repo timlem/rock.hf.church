@@ -1,0 +1,127 @@
+.pos-vertical-center-home {
+    position: relative;
+    width: auto;
+    top: 50%;
+    left: auto;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+@media (max-aspect-ratio: 16/9) {
+    .pos-vertical-center-home {
+        width: 32%;
+        left: 50%;
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%);
+        top: 110px;
+    }
+}
+@media (min-aspect-ratio: 16/9) {
+    .pos-vertical-center-home {
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+}
+@media (min-aspect-ratio: 16/9) and (max-aspect-ratio: 16/9) {
+    .pos-vertical-center-home {
+        -webkit-transform: translateX(-50%) translateY(-50%);
+        transform: translateX(-50%) translateY(-50%);
+    }
+}
+@media (max-aspect-ratio: 16/9) and (min-width: 1200px) {
+    .pos-vertical-center-home {
+        top: 50%;
+        -webkit-transform: translateX(-50%) translateY(-50%);
+        transform: translateX(-50%) translateY(-50%);
+    }
+}
+@media (min-aspect-ratio: 16/9) and (max-width: 992px) {
+    .pos-vertical-center-home {
+        top: 58%;
+    }
+}
+.pos-vertical-center {
+    position: relative;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+footer .footer-links {
+    background-image: url(https://res.cloudinary.com/hfchurch/image/upload/f_auto,fl_lossy,q_auto/v1505439770/pallet_wood_background_2_iemvbu.jpg);
+}
+.series-title {
+    
+    text-align: center;
+}
+.series-dates {
+    text-align: center;
+}
+.socialsharing {
+    text-align: center;
+}
+
+.contribution-personal .panel-heading {
+    .clearfix;
+
+    .panel-title {
+        line-height: 48px;
+    }
+
+    .panel-labels .panel-text {
+        margin-top: 0px;
+    }
+}
+
+/* Centering Login in Navbar */
+
+#zone-topbarsocial > .zone-content {
+    display: ~"flex !important";
+    flex-flow: ~"row-reverse !important";
+    justify-content: ~"center !important";
+    align-items: ~"center !important";
+}
+
+.loginstatus>li{
+    min-width: ~"auto !important";
+    text-align: ~"unset !important";
+}
+
+.loginstatus>li>a>span {
+    color: ~"white !important";
+}
+
+.loginstatus>li>a>span:hover {
+    color: ~"#88bd48 !important";
+}
+
+.navbar-inverse .navbar-nav>li>a{
+    color: ~"#88bd48 !important";    
+}
+
+.navbar-inverse .navbar-nav>.open>a, 
+.navbar-inverse .navbar-nav>.open>a:hover, 
+.navbar-inverse .navbar-nav>.open>a:focus {
+    background-color: ~"#027cbd !important";
+}
+
+.navbar-nav>li>.dropdown-menu {
+    border-radius: ~"4px !important";
+    margin-top: ~"-8px !important";
+}
+
+@media (max-width: 767px){
+    .loginstatus .open .dropdown-menu{
+        border-radius: ~"4px !important";
+        padding-left: ~"0px !important";
+        position: ~"absolute !important";
+        float: ~"none !important";
+        width: ~"auto !important";
+        border: ~"0 !important";
+        background-color: ~"white !important";
+    }
+    
+    #zone-topbarsocial {
+     margin-left: -15px;
+     margin-right: -15px;
+    }
+}
