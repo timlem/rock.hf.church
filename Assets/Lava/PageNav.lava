@@ -1,0 +1,38 @@
+{% assign jsonString = 'Global' | Attribute:'RVCPageTargets' %}
+{% assign jsonObject = jsonString | FromJSON %}
+{% if Page.DisplayChildPages == 'true' and Page.Pages != empty %}
+<ul class="nav navbar-nav">
+    {% for childPage in Page.Pages %}
+    {% if childPage.DisplayChildPages == 'true' and childPage.Pages and childPage.Pages != empty %}{% assign displayChildPages = true %}{% else %}{% assign displayChildPages = false %}{% endif %}
+    <li class="{% if displayChildPages %} dropdown {% endif %}{% if childPage.Current == 'true' %} active{% endif %}" {% if displayChildPages %}role="presentation" {% endif %}>
+        {% assign openTarget = '' %}{% for pageT in jsonObject.TargetPages %}{% if pageT.PageId == childPage.Id %}{% assign openTarget = pageT.target %}{% endif %}{% endfor %}
+        {% if displayChildPages %}<a href="#" data-toggle="dropdown" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
+            {% else %}<a href="{{ childPage.Url }}" {% if openTarget !='' %} target="{{openTarget}}" {% endif %}>
+                {% endif %}
+                {{ childPage.Title }} {% if displayChildPages %} <i class="fa fa-angle-down"></i>{% endif %}
+            </a>
+            {% if displayChildPages %}
+            <ul class="dropdown-menu">
+                {% for grandChildPage in childPage.Pages %}
+                {% if grandChildPage.DisplayChildPages == 'true' and grandChildPage.Pages and grandChildPage.Pages != empty %}{% assign displayGrandChildPages = true %}{% else %}{% assign displayGrandChildPages = false %}{% endif %}
+                <li class="{% if grandChildPage.Current == 'true' %}current_page{% endif %}{% if displayGrandChildPages %} dropdown-submenu{% endif %}">
+                    {% assign openTarget = '' %}{% for pageT in jsonObject.TargetPages %}{% if pageT.PageId == greatGrandChildPage.Id %}{% assign openTarget = pageT.target %}{% endif %}{% endfor %}
+                    <a href="{{ grandChildPage.Url }}" {% if openTarget !='' %} target="{{openTarget}}" {% endif %}>{{ grandChildPage.Title }} {% if displayGrandChildPages %} <i class="fa fa-angle-right"></i>{% endif %}</a>
+                    {% if displayGrandChildPages %}
+                    <ul class="dropdown-menu">
+                        {% for greatGrandChildPage in grandChildPage.Pages %}
+                        <li class="{% if greatGrandChildPage.Current == 'true' %}current_page{% endif %}">
+                            {% assign openTarget = '' %}{% for pageT in jsonObject.TargetPages %}{% if pageT.PageId == greatGrandChildPage.Id %}{% assign openTarget = pageT.target %}{% endif %}{% endfor %}
+                            <a href="{{ greatGrandChildPage.Url }}" {% if openTarget !='' %} target="{{openTarget}}" {% endif %}>{{ greatGrandChildPage.Title }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}

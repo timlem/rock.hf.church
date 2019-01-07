@@ -1,0 +1,34 @@
+﻿<div class="theme-heading  social-share-title"><span class="text">Share With Others</span></div>
+{% capture pageUrl %}{{ 'Global' | Attribute:'PublicApplicationRoot' }}page/{{ CurrentPage.Id }}{% assign firstitem = true %}{% for param in PageParameter %}{% assign paramParts = param | PropertyToKeyValue %}{% if paramParts.Key != "PageId" %}{% if firstitem == "true" %}?{% else %}&{% endif %}{{ paramParts.Key }}={{ paramParts.Value }}{% assign firstitem = false %}{% endif %}{% endfor %}{% endcapture -%}
+<ul class="wpex-social-share position-horizontal style-flat clearfix">
+    <li class="share-facebook">
+        <a href="https://facebook.com/sharer/sharer.php?u={{ pageUrl | EscapeDataString }}"
+           title="Share on Facebook" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
+            <span class="fa fa-facebook"></span><span class="social-share-button-text">Share</span>
+        </a>
+    </li>
+    <li class="share-twitter">
+        <a href="https://twitter.com/intent/tweet?url={{ pageUrl | EscapeDataString }}&text={{CurrentPage.BrowserTitle | EscapeDataString }}%20%7C%20{{CurrentPage.Site | EscapeDataString }}&amp;via=highlands"
+           title="Share on Twitter" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
+            <span class="fa fa-twitter"></span><span class="social-share-button-text">Tweet</span>
+        </a>
+    </li>
+    <li class="share-googleplus">
+        <a href="https://plus.google.com/share?url={{ pageUrl | EscapeDataString }}"
+           title="Share on Google+" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
+            <span class="fa fa-google-plus"></span><span class="social-share-button-text">Plus one</span>
+        </a>
+    </li>
+    <li class="share-linkedin">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url={{ pageUrl | EscapeDataString }}&amp;title={{CurrentPage.BrowserTitle | EscapeDataString}}&amp;summary=&amp;source={{'Global' | Attribute:'PublicApplicationRoot'}}"
+           title="Share on LinkedIn" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
+            <span class="fa fa-linkedin"></span><span class="social-share-button-text">Share</span>
+        </a>
+    </li>
+    <li class="share-pinterest">
+        <a href="https://www.pinterest.com/pin/create/button/?url={{ pageUrl | EscapeDataString }}&amp;media=&amp;description="
+           title="Share on Pinterest" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
+            <span class="fa fa-pinterest"></span><span class="social-share-button-text">Pin It</span>
+        </a>
+    </li>
+</ul>

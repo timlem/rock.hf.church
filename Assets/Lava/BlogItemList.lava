@@ -1,0 +1,58 @@
+﻿{% if PageParameter.Category and PageParameter.Category != "" %}{{ PageParameter.Category | SetPageTitle }}{% endif %}
+<div id="blog-entries" class="blog-grid row">
+    {% for item in Items %}
+    <article id="post-{{item.Id}}" class="col-sm-4 blog-entry post-{{item.Id}} margin-b-lg">
+        <div class="col-xs-12 blog-entry-inner padding-b-md padding-h-md">
+            <div class="blog-entry-media">
+                {% capture detailUrl -%}{{ LinkedPages.DetailPage }}?Item={{ item.Id }}{% endcapture %}{% assign friendlyUrl = item | Attribute:'FriendlyURL' %}{% if friendlyUrl and friendlyUrl != '' %}{% capture detailUrl %}/blog/{{friendlyUrl}}{% endcapture %}{% endif -%}
+                <a href="{{detailUrl}}" title="{{ item.Title }}" rel="bookmark" class="img-overlay">
+                    {{ item | Attribute:'Image' }}
+                    <span class="title">{{ item.Title }}</span>
+                    <span class="spacer"></span>
+                </a>
+            </div>
+            <header class="blog-entry-header">
+                <h2 class="blog-entry-title">
+                    <a href="{{detailUrl}}" title="{{ item.Title }}" rel="bookmark">{{ item.Title }}</a>
+                </h2>
+            </header>
+            <ul class="meta">
+                <li class="meta-date">
+                    <span class="fa fa-clock-o" aria-hidden="true"></span>
+                    <span class="updated">{{ item.StartDateTime | Date:'MMMM d, yyyy' }}</span>
+                </li>
+                {% assign itemCat = item | Attribute:'Category' %}
+                {% if itemCat and itemCat != '' %}
+                <li class="meta-category">
+                    <span class="fa fa-folder-o" aria-hidden="true"></span>
+                    <a href="/category/{{ item | Attribute:'Category' }}/" rel="category tag">{{ item | Attribute:'Category' }}</a>
+                </li>{% endif %}
+            </ul>
+            <div class="blog-entry-excerpt">
+                <p>{{ item | Attribute:'Summary' }}</p>
+            </div>
+            <div class="blog-entry-readmore">
+                <a href="{{detailUrl}}" class="btn btn-primary" title="More">More</a>
+            </div>
+        </div>
+    </article>
+    {% endfor %}
+</div>
+<nav aria-label="Page navigation" class="row text-center blog-pagination">
+    {% assign nextPageString = Pagination.NextPage | ToString %}
+    {% assign prevPageString = Pagination.PreviousPage | ToString %}
+    <ul class="pagination">
+        {% if {{Pagination.PreviousPage != -1 }} %}
+        <li>
+            <a class="prev page-numbers" href="{{Pagination.UrlTemplate | Replace:'PageNum', prevPageString}}"><span class="fa fa-angle-left"></span></a>
+        </li>    {% endif %}
+        {% for pg in Pagination.Pages %}
+        <li {% if Pagination.CurrentPage == pg.PageNumber %} class="active" {% endif %}>
+            <a class="page-numbers" href="{{ Pagination.UrlTemplate | Replace:'PageNum', pg.PageUrl }}">{{ pg.PageNumber }}</a>
+        </li>{% endfor %}
+        {% if {{Pagination.NextPage != -1 }} %}
+        <li>
+            <a class="next page-numbers" href="{{Pagination.UrlTemplate | Replace:'PageNum', nextPageString}}"><span class="fa fa-angle-right"></span></a>
+        </li>{% endif %}
+    </ul>
+</nav>

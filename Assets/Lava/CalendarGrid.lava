@@ -1,0 +1,52 @@
+  {% assign eventItemOccurrenceCount = EventItemOccurrences | Size %}
+
+  {% if eventItemOccurrenceCount == 0 %}
+<div class="panel panel-default margin-t-md">
+    <div class="margin-all-md"> There are no events in this time frame.</div>
+</div>
+  {% endif %}
+<div class="event-grid margin-v-lg">
+    <div class="row clearfix">
+        {% for eventItemOccurrence in EventItemOccurrences %}
+        <div id="post-{{ eventItemOccurrence.EventItemOccurrence.Id }}" class="col-sm-4 margin-b-lg event-entry post-{{ eventItemOccurrence.EventItemOccurrence.Id }}">
+            <div class="photo-event-wrap">
+                {% if eventItemOccurrence.EventItemOccurrence.EventItem.Photo.Guid %}
+                <div class="event-image">
+                    {% if eventItemOccurrence.DetailPage != null %}
+                    <a href="{{ eventItemOccurrence.DetailPage }}">
+                    {% else %}
+                    <a href="{{ DetailsPage }}?EventOccurrenceId={{ eventItemOccurrence.EventItemOccurrence.Id }}">
+                    {% endif %}
+                        <img src="/GetImage.ashx?Guid={{ eventItemOccurrence.EventItemOccurrence.EventItem.Photo.Guid }}" alt="" class="img-responsive" />
+                    </a>
+                </div>{% endif %}
+                <div class="event-details padding-all-md clearfix">
+                    <h2>
+                        {% if eventItemOccurrence.DetailPage != null %}
+                        <a href="{{ eventItemOccurrence.DetailPage }}" title="{{ eventItemOccurrence.Name }}" rel="bookmark">
+                        {% else %}
+                        <a class="event-url" href="{{ DetailsPage }}?EventOccurrenceId={{ eventItemOccurrence.EventItemOccurrence.Id }}"
+                            title="{{ eventItemOccurrence.Name }}" rel="bookmark">{% endif %}{{ eventItemOccurrence.Name }}</a>
+                    </h2>
+                    <div class="event-meta">
+                        <div class="event-schedule-details">
+                            {% if eventItemOccurrence.EventItemOccurrence.Schedule.EffectiveStartDate != eventItemOccurrence.EventItemOccurrence.Schedule.EffectiveEndDate %}
+                            <span class="event-date-start">{{ eventItemOccurrence.EventItemOccurrence.Schedule.EffectiveStartDate  | Date: 'MMMM d, yyyy' }}</span> - <span class="event-time">{{ eventItemOccurrence.EventItemOccurrence.Schedule.EffectiveEndDate  | Date: 'MMMM d, yyyy'}}</span>
+                            {% else %}
+                            <span class="event-date-start">{{ eventItemOccurrence.Date | Date: 'MMMM d, yyyy' }} @ {{ eventItemOccurrence.Time }}</span><!-- - <span class="event-time">xx:00 am</span>-->
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="event-content">{{eventItemOccurrence.Summary}}</div>
+                </div>
+            </div>
+        </div>
+        {% capture breakNow %}{{ forloop.index | Modulo:3 }}{% endcapture %}
+        {% if breakNow == 0 -%}
+    </div>
+    <div class="row clearfix">
+        {% endif -%}
+
+        {% endfor %}
+    </div>
+</div>

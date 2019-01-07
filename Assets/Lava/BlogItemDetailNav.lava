@@ -1,0 +1,34 @@
+﻿﻿{% assign blogId = PageParameter.item %}
+﻿{% assign paramFriendlyUrl = PageParameter.FriendlyURL %}
+{% unless blogId %}
+	{% assign blogId = PageParameter.Item %}
+{% endunless %}
+{% unless blogId or paramFriendlyUrl %}
+    {% assign firstItem = Items | First %}
+    {% assign blogId = firstItem.Id %}
+{% endunless %}
+<div class="row clearfix">
+    <ul class="post-pagination">
+        {% for item in Items %}{% assign friendlyUrl = item | Attribute:'FriendlyURL' %}
+        {% if CurItem != empty and CurItem != null %}
+        <li class="post-prev">
+            {% capture detailUrl -%}{{ LinkedPages.DetailPage }}?Item={{ item.Id }}{% endcapture %}{% if friendlyUrl and friendlyUrl != '' %}{% capture detailUrl %}/blog/{{friendlyUrl}}{% endcapture %}{% endif -%}
+            <a href="{{ detailUrl }}" rel="prev"><span class="fa fa-angle-double-left"></span> {{ item.Title }}</a>
+        </li>
+        {% assign CurItem = null %}
+        {% endif %}
+        {% if item.Id == blogId or paramFriendlyUrl == friendlyUrl %}
+        {% if NextItem != empty and NextItem != null %}
+        <li class="post-next">{% assign nextFriendlyUrl = NextItem | Attribute:'FriendlyURL' %}
+            {% capture detailUrl -%}{{ LinkedPages.DetailPage }}?Item={{ NextItem.Id }}{% endcapture %}{% if nextFriendlyUrl and nextFriendlyUrl != '' %}{% capture detailUrl %}/blog/{{nextFriendlyUrl}}{% endcapture %}{% endif -%}
+            <a class="pull-right" href="{{ detailUrl }}" rel="next">{{ NextItem.Title }} <span class="fa fa-angle-double-right"></span></a>
+        </li>
+        {% endif %}
+        {% assign CurItem = item %}
+        {% else %}
+        {% assign NextItem = item %}
+        {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+

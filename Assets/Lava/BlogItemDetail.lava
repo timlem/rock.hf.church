@@ -1,0 +1,53 @@
+﻿{% for item in Items -%}
+   {% assign bannerImage = item | Attribute:'BannerImage','RawValue' -%}
+<header class="page-header {% if bannerImage and bannerImage != '' %}background-image-page-header{% else %}centered-page-header{% endif %}" {% if bannerImage and bannerImage !='' %} style="background-image:url(/GetImage.ashx?Guid={{ bannerImage }})" {% endif %}>
+    <div class="container">
+        <div class="row">
+            <h1 class="page-header-title">{{ item.Title }}</h1>{{ item.Title | SetPageTitle }}
+            {{ item.Title | AddMetaTagToHead:'property','og:title' }}
+            {{ item | Attribute:'Summary' | AddMetaTagToHead:'property','og:description' }}
+
+            <nav class="breadcrumb" title="Page Breadcrumbs">
+                <ul class="breadcrumb">
+                    <li><a href="/" rel="v:url">Home</a></li>
+                    <li><a href="/blog/" rel="v:url">Resources</a></li>
+                    <li><a href="/blog/" rel="v:url">Blog</a></li>
+                    <li>{{ item.Title }}</li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    {% if bannerImage and bannerImage != '' -%}
+    <script>$("[id*='siteHeader']").addClass("overlay-header").addClass("white-style");</script>
+    <span class="background-image-page-header-overlay style-dotted" style="opacity:.5"></span>{% endif %}
+</header>
+<div class="container">
+    <div class="row blog-content">
+        <article class="single-blog-article">
+            <div id="post-media">
+                {% assign imageObj = item | Attribute:'Image','Object' -%}
+                {% if imageObj -%}{{ imageObj.Url | AddMetaTagToHead:'property','og:image' }}{% endif -%}
+                {{ item | Attribute:'Image' }}
+            </div>
+            <header class="single-blog-header">
+                <h1 class="single-post-title entry-title" itemprop="headline">{{ item.Title }}</h1>
+            </header>
+            <ul class="meta">
+                <li class="meta-date">
+                    <span class="fa fa-clock-o" aria-hidden="true"></span>
+                    <time class="updated" datetime="{{ item.StartDateTime | Date:'yyyy-MM-dd' }}" itemprop="datePublished" pubdate="">{{ item.StartDateTime | Date:'MMMM d, yyyy' }}</time>
+                </li>
+                {% assign itemCat = item | Attribute:'Category' %}
+                {% if itemCat and itemCat != '' %}
+                <li class="meta-category">
+                    <span class="fa fa-folder-o" aria-hidden="true"></span>
+                    <a href="/category/{{ item | Attribute:'Category' }}/" rel="category tag">{{ item | Attribute:'Category' }}</a>
+                </li>{% endif %}
+            </ul>
+            <div class="entry" itemprop="text">
+                {{ item.Content }}
+            </div>
+        </article>
+    </div>
+</div>
+{% endfor %}

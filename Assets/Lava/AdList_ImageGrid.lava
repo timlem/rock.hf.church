@@ -1,0 +1,17 @@
+﻿<div class="image-grid-row">
+    <div class="image-grid">
+        {% for item in Items %}
+        <div class="id-{{ item.Id }} image-grid-entry col-sm-4 padding-h-none">
+            {% assign redirectURL = item | Attribute:'RedirectURL','RawValue' %}{% assign detailURL = '' %}
+            {% if redirectURL and redirectURL != empty %}{% assign detailURL = redirectURL %}{% else %}{% capture detailURL %}{{ LinkedPages.DetailPage }}?Item={{ item.Id }}{% endcapture %}{% endif %}
+            <a href="{{ detailURL }}" class="img-overlay image-grid-entry-img">
+                {% assign imageUrl = item | Attribute:'ImageURL','RawValue' %}
+                {% if imageUrl and imageUrl != "" %}<img src="{{ imageUrl }}" class="img-responsive">{% else %}
+                {{ item | Attribute:'Image' }}{% endif %}
+                <span class="title"><h3>{{ item.Title }}</h3>{{ item | Attribute:"SubTitle" }}</span>
+                <img src="/Themes/HLF/Assets/images/trans.png" class="spacer img-responsive">
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>

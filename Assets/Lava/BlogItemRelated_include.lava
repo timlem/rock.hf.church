@@ -1,0 +1,37 @@
+﻿<article id="post-{{item.Id}}" class="col-sm-4 blog-entry post-{{item.Id}} margin-b-lg">
+    {% assign blogImage = item | Attribute:'Image' %}
+    {% capture detailUrl -%}{{ LinkedPages.DetailPage }}?Item={{ item.Id }}{% endcapture %}{% if friendlyUrl and friendlyUrl != '' %}{% capture detailUrl %}/blog/{{friendlyUrl}}{% endcapture %}{% endif -%}
+    {% if blogImage and blogImage != empty %}<div class="blog-entry-media">
+        <a href="{{ detailUrl }}" title="{{ item.Title }}" rel="bookmark" class="img-overlay">
+            {{ item | Attribute:'Image' }}
+            <span class="title">{{ item.Title }}</span>
+            <span class="spacer"></span>
+        </a>
+    </div>{% else %}
+    <div class="col-xs-12 blog-entry-inner padding-b-md padding-h-md">
+        <header class="blog-entry-header">
+            <h2 class="blog-entry-title">
+                <a href="{{ detailUrl }}" title="{{ item.Title }}" rel="bookmark">{{ item.Title }}</a>
+            </h2>
+        </header>
+        <ul class="meta">
+            <li class="meta-date">
+                <span class="fa fa-clock-o" aria-hidden="true"></span>
+                <span class="updated">{{ item.StartDateTime | Date:'MMMM d, yyyy' }}</span>
+            </li>
+            {% assign itemCat = item | Attribute:'Category' %}
+            {% if itemCat and itemCat != '' %}
+            <li class="meta-category">
+                <span class="fa fa-folder-o" aria-hidden="true"></span>
+                <a href="/category/{{ item | Attribute:'Category' }}/" rel="category tag">{{ item | Attribute:'Category' }}</a>
+            </li>{% endif %}
+        </ul>
+        <div class="blog-entry-excerpt">
+            <p>{{ item | Attribute:'Summary' }}</p>
+        </div>
+        <div class="blog-entry-readmore">
+            <a href="{{ detailUrl }}" class="btn btn-primary" title="More">More</a>
+        </div>
+    </div>
+    {% endif %}
+</article>

@@ -1,0 +1,37 @@
+﻿{% assign item = Items | First %}
+{% if item %}
+{% assign gridSpacing = item | Attribute:'GridSpacing' %}
+<div class="image-grid">
+    {% for photo in item.ChildItems %}
+    <div class="id-{{ photo.ChildContentChannelItem.Id }} image-grid-entry {% case gridSpacing %}{% when '2 Column' %}col-sm-6{% when '3 Column' %}col-sm-4{% when '4 Column' %}col-sm-3{% endcase %} padding-h-none">
+                {% assign photolink = photo.ChildContentChannelItem | Attribute:'Link','RawValue' %}
+                {% if photolink and photolink != '' %}
+                    <a href="{{ photolink }}" class="img-overlay image-grid-entry-img">
+                    {% else %}
+                    <a href="/GetImage.ashx?Guid={{ photo.ChildContentChannelItem | Attribute:'Image','RawValue' }}" class="img-overlay image-grid-entry-img wpex-lightbox-group-item"
+                       data-title="{{ photo.ChildContentChannelItem.Title }}" data-type="image">{% endif %}
+                        {{ photo.ChildContentChannelItem | Attribute:'Image' }}
+                        {% if photolink and photolink != '' %}<span class="title">{{ photo.ChildContentChannelItem.Title }}</span>{% endif %}
+                        <img src="/Themes/HLF/Assets/images/trans.png" class="spacer img-responsive" />
+                    </a>
+    </div>
+    {% endfor %}
+</div>
+<!-- .modal-profile -->
+<div class="modal fade modal-profile" tabindex="-1" role="dialog" aria-labelledby="modalProfile" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal">×</button>
+                <h3 class="modal-title"></h3>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- //.modal-profile -->
+{% else %}
+<h1>Could not find photo gallery.</h1>
+{% endif %}

@@ -1,0 +1,173 @@
+    {% assign bannerImage = Event | Attribute:'BannerImage','RawValue' %}
+<header class="page-header {% if bannerImage and bannerImage != '' %}background-image-page-header{% else %}centered-page-header{% endif %}" {% if bannerImage and bannerImage !='' %} style="background-image:url(/GetImage.ashx?Guid={{ bannerImage }})" {% endif %}>
+    <div class="container">
+        <div class="row">
+            {% assign scheduledDates = EventItemOccurrence.Schedule.iCalendarContent | DatesFromICal:'all' %}
+            {% assign FirstDate = EventItemOccurrence.Schedule.iCalendarContent | DatesFromICal:'1' | First %}
+            {% capture currencySymbol %}{{ 'Global' | Attribute:'CurrencySymbol' }}{% endcapture %}
+            {% assign linkage = EventItemOccurrence.Linkages | First %}
+            <h1 class="page-header-title">{{Event.Name}}</h1>
+            <h2 class="page-subheading">
+                <span class="schedule"><i class="fa fa-calendar-o"></i> <span class="event-date-start"> {{ FirstDate | Date: 'MMMM d, yyyy @ h:mm tt' }}</span><!-- - <span class="tribe-event-time">8:00 pm</span>--></span>
+                {% if linkage.RegistrationInstanceId > 0 ) %}<span class="cost"><i class="fa fa-money"></i> {% if linkage.RegistrationInstance.Cost %}{{currencySymbol}}{{linkage.RegistrationInstance.Cost}}{% elseif linkage.RegistrationInstance.RegistrationTemplate.Cost %}{{currencySymbol}}{{ linkage.RegistrationInstance.RegistrationTemplate.Cost }}{% else %}Free{% endif %}</span>{% endif %}
+            </h2>
+            <nav class="breadcrumb" title="Page Breadcrumbs">
+                <ul class="breadcrumb">
+                    <li><a href="/" rel="v:url">Home</a></li>
+                    <li><a href="/events/" rel="v:url">Events</a></li>
+                    <li>{{Event.Name}}</li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    {% if bannerImage and bannerImage != '' %}<script>$("[id*='siteHeader']").addClass("overlay-header").addClass("white-style");</script>
+    <span class="background-image-page-header-overlay style-dotted" style="opacity:.5"></span>{% endif %}
+</header>
+<article class="event-single">
+    <div class="container">
+        <div class="row event-content">
+            <div id="post-{{ Event.Id }}" class="col-xs-12 post-{{ Event.Id }} entry">
+                {% if Event.Photo.Guid %}
+                <div class="event-image margin-b-lg">
+                    <div class = 'col-md-4'
+                    <center><img width="500" src="/GetImage.ashx?Guid={{ Event.Photo.Guid }}" class="img-responsive" alt="" /></center>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="event-description">
+                    {{ Event.Description }}
+
+                    {{ 'summary_large_image' | AddMetaTagToHead:'property','twitter:card' }}
+                    {{ Event.Name | AddMetaTagToHead:'property','twitter:title' }}
+                    {{ Event.Description | AddMetaTagToHead:'property','twitter:description' }}
+
+                    {{ Event.Name | AddMetaTagToHead:'property','og:title' }}
+                    {{ Event.Description | AddMetaTagToHead:'property','og:description' }}
+
+                    {% assign facebookPhoto = Event | Attribute:'core_calendar_FacebookPhoto','Object' %}
+                    {% if facebookPhoto %}
+                    {{ facebookPhoto.Url | AddMetaTagToHead:'property','og:image' }}
+                    {% endif %}
+
+                    {% assign twitterPhoto = Event | Attribute:'core_calendar_TwitterPhoto','Object' %}
+                    {% if twitterPhoto != '' %}
+                    {{ twitterPhoto.Url | AddMetaTagToHead:'property','twitter:image' }}
+                    {% endif %}
+
+                    {% if linkage.RegistrationInstanceId > 0 ) %}
+                    {% assign daysTillStartDate = 'Now' | DateDiff:linkage.RegistrationInstance.StartDateTime,'m' %}
+                    {% assign daysTillEndDate = 'Now' | DateDiff:linkage.RegistrationInstance.EndDateTime,'m' %}
+                    {% assign showRegistration = true %}
+                    {% assign registrationMessage = '' %}
+
+                    {% if daysTillStartDate and daysTillStartDate > 0 %}
+                    {% assign showRegistration = false %}
+                    {% capture registrationMessage %}<p>Registration opens on {{ linkage.RegistrationInstance.StartDateTime | Date:'dddd, MMMM d, yyyy' }}</p>{% endcapture %}
+                    {% endif %}
+
+                    {% if daysTillEndDate and daysTillEndDate < 0 %}
+                    {% assign showRegistration = false %}
+                    {% capture registrationMessage %}<p>Registration closed on {{ linkage.RegistrationInstance.EndDateTime | Date:'dddd, MMMM d, yyyy' }}</p>{% endcapture %}
+                    {% endif %}
+
+                    {% if showRegistration == true %}
+                    <p><a class="btn btn-primary margin-v-lg btn-md btn-block" href="{{ RegistrationPage }}?RegistrationInstanceId={{ linkage.RegistrationInstanceId }}&EventOccurrenceID={{ EventItemOccurrence.Id }}" class="btn btn-default btn-block margin-t-md">Register</a></p>
+                        
+                    {% else %}
+                    {{ registrationMessage }}
+                    {% endif %}
+
+                    {% endif %}
+                <small>
+        {% if RegistrationSpotsAvailable == 1 %}
+        {{ RegistrationSpotsAvailable }} spot available
+        {% elseif RegistrationSpotsAvailable > 1 %}
+        {{ RegistrationSpotsAvailable }} spots available
+        {% elseif RegistrationSpotsAvailable <= 0 %}
+            {% if waitListEnabled == true %}
+              Registration full, waitlist available.
+            {% endif %}
+        {% endif %}
+    </small>
+                </div>
+                <div class="event-cal-links">
+                    <!--<a class="tribe-events-gcal tribe-events-button" href="http://www.google.com/calendar/event?action=TEMPLATE&#038;text=TITLE&#038;dates=DATESTZ&#038;details=SUMMARY&#038;location=LOCATION&#038;trp=false&#038;sprop=website:http://test.hfhub.net/hf&#038;ctz=America%2FNew_York" title="Add to Google Calendar">+ Google Calendar</a>-->
+                    <a class="btn btn-default" href="" onclick="return ics_click()" title="Download .ics file">+ iCal Export</a>
+                </div>
+                <div class="event-meta margin-v-lg clearfix">
+                    <div class="meta-group-details col-sm-4">
+                        <h3> Details</h3>
+                        <dl>
+                            <dt> Date:</dt>
+                            <dd> <abbr class="published dtstart" title="{{ FirstDate | Date:'yyyy-MM-dd' }}"> {{ FirstDate | Date:'MMMM d, yyyy' }} </abbr></dd>
+                            <dt> Time:</dt>
+                            <dd>
+                                <div class="published dtstart">{{ FirstDate | Date:'h:mm tt' }}</div>
+                            </dd>
+                            {% if EventItemOccurrence.Campus != null %}
+                            <dt>Campus:</dt>
+                            <dd>{{EventItemOccurrence.Campus.Name}}</dd>
+                            {% endif %}
+                            {% if EventItemOccurrence.Location != '' %}
+                            <dt>Location</dt>
+                            <dd>{{ EventItemOccurrence.Location }}</dd>
+                            {% endif %}
+                            <!--<dt>Event Category:</dt>
+                            <dd class="tribe-events-event-categories"><a href="http://test.hfhub.net/hf/events/category/adult-ministry/" rel="tag">Adult Ministry</a></dd>-->
+                        </dl>
+                    </div>
+                    {% if (EventItemOccurrence.ContactPersonAlias.Person.Fullname | Trim != '') or EventItemOccurrence.ContactEmail != '' or EventItemOccurrence.ContactPhone != '' %}
+                    <div class="meta-group-organizer col-sm-4">
+                        <h3>Organizer</h3>
+                        <dl>
+                            {% if EventItemOccurrence.ContactPersonAlias.Person.Fullname | Trim != '' %}
+                            <dt>Contact</dt>
+                            <dd class="tribe-organizer">{{ EventItemOccurrence.ContactPersonAlias.Person.FullName }}</dd>
+                            {% endif %}
+                            {% if EventItemOccurrence.ContactEmail != '' %}
+                            <dt>Email</dt>
+                            <dd class="tribe-organizer">{{ EventItemOccurrence.ContactEmail }}</dd>
+                            {% endif %}
+                            {% if EventItemOccurrence.ContactPhone != '' %}
+                            <dt>Phone</dt>
+                            <dd class="tribe-organizer">{{ EventItemOccurrence.ContactPhone }}</dd>
+                            {% endif %}
+                            {% if EventItemOccurrence.Note != '' %}
+                            <dt>Note</dt>
+                            <dd> {{ EventItemOccurrence.Note }} </dd>
+                            {% endif %}
+                        </dl>
+                    </div>
+                    {% endif %}
+                </div>
+                {% comment %}<div class="event-meta margin-v-lg clearfix">
+                    <div class="meta-group-venue col-sm-4">
+                        <h3> Location</h3>
+                        <dl>
+                            <dd class="venue "> <a href="http://test.hfhub.net/hf/location/bristol-campus/">Bristol Campus</a></dd>
+                            <dd class="venue-location ">
+                                <address class="events-address">
+                                    <span class="address ">
+                                        <span class="street-address">2004 Lee Hwy</span> <br> <span class="locality ">Bristol</span>
+                                        <span class="delimiter">,</span>
+                                        <abbr class="region events-abbr " title="Virginia">VA</abbr><span class="postal-code ">24210</span>
+                                        <span class="country-name">United States</span>
+                                    </span><a class="events-gmap " href="http://maps.google.com/maps?f=q&#038;source=s_q&#038;hl=en&#038;geocode=&#038;q=2004+Lee+Hwy+Bristol+VA+24210+United+States" title="Click to view a Google Map " target="_blank">+ Google Map</a>
+                                </address>
+                            </dd>
+                            <dt> Phone:</dt>
+                            <dd class="venue-tel"> 276-628-3297</dd>
+                            <dt> Website:</dt>
+                            <dd class="url "> <a href="http:///bristol " target="_self">/bristol</a></dd>
+                        </dl>
+                    </div>
+                    <div class="venue-map">
+                        <div id="gmap-0" style="height: 350px; width: 100%"></div>
+                    </div>
+                </div>{% endcomment %}
+            </div>
+        </div>
+    </div>
+</article>
+<script>function fbs_click() { u = location.href; t = document.title; window.open('http://www.facebook.com/sharer.php?u=' + encodeURIComponent(u) + '&t=' + encodeURIComponent(t), 'sharer', 'toolbar=0,status=0,width=626,height=436'); return false; }</script>
+<script>function ics_click() { text = `{{ EventItemOccurrence.Schedule.iCalendarContent }}`.replace('END:VEVENT', 'SUMMARY: {{ Event.Name }}\r\nLOCATION: {{ EventItemOccurrence.Location }}\r\nEND:VEVENT'); var element = document.createElement('a'); element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text)); element.setAttribute('download', '{{ Event.Name }}.ics'); element.style.display = 'none'; document.body.appendChild(element); element.click(); document.body.removeChild(element); }</script>

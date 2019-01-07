@@ -1,0 +1,50 @@
+﻿{% for group in Groups %}
+<article class="blog-entry margin-b-lg">
+    <div class="blog-entry-inner clearfix">
+        <div class="col-sm-6 blog-entry-media-full">
+            <div class="blog-entry-media">
+                <a href="{{ LinkedPages.GroupDetailPage }}?GroupId={{ group.Id }}" title="{{ group.Name }}" rel="bookmark" class="img-overlay">
+                    {% assign smallGroupImage = group | Attribute:'SmallGroupImage' -%}
+                    {% if smallGroupImage and smallGroupImage != emptry and smallGroupImage != '' -%}
+                    {{ group | Attribute:'SmallGroupImage' }}
+                    {% else -%}
+                    <img src="/Themes/HLF/Assets/images/DefaultGroupImage.jpg" class="img-responsive" />
+                    {% endif -%}
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-6 padding-all-lg padding-v-xl">
+            <header class="blog-entry-header margin-t-none">
+                <h2 class="blog-entry-title">
+                    <a href="{{ LinkedPages.GroupDetailPage }}?GroupId={{ group.Id }}" title="{{ group.Name  }}" rel="bookmark">{{ group.Name }}</a>
+                </h2>
+            </header>
+            <ul class="meta">
+                <li class="meta-date">
+                    <span class="fa fa-clock-o" aria-hidden="true"></span>
+                    <span class="updated">{{ group.Schedule.FriendlyScheduleText }}</span>
+                </li>
+                <li class="meta-category">
+                    <span class="fa fa-folder-o" aria-hidden="true"></span>
+                    {{ group | Attribute:'GroupTags' }}
+                </li>
+            </ul>
+            <div class="blog-entry-excerpt">
+                <p>{{ group.Description }}</p>
+            </div>
+            <div class="blog-entry-readmore">
+                {% if LinkedPages.GroupDetailPage and LinkedPages.GroupDetailPage != '' -%}
+                    <a class='btn btn-primary margin-r-sm' href='{{ LinkedPages.GroupDetailPage }}?GroupId={{ group.Id }}'>View {{ group.GroupType.GroupTerm }}</a>
+                {% endif -%}
+
+                {% if LinkedPages.RegisterPage and LinkedPages.RegisterPage != '' -%}
+                    {% if LinkedPages.RegisterPage contains '?' -%}
+                    <a class='btn btn-primary' href='{{ LinkedPages.RegisterPage }}&GroupGuid={{ group.Guid }}'Learn More</a>
+                    {% else -%}
+                    <a class='btn btn-primary' href='{{ LinkedPages.RegisterPage }}?GroupGuid={{ group.Guid }}'>Learn More</a>
+                    {% endif -%}
+                {% endif -%}
+            </div>
+        </div>
+    </div>
+</article>{% endfor %}

@@ -1,0 +1,15 @@
+﻿<h2 class="text-center margin-b-lg"><span class="fa fa-map-marker"></span>&nbsp;Locations</h2>
+<div class="row">
+    {% for item in Items %}
+    <div class="id-{{ item.Id }} col-sm-6 col-md-4 padding-all-lg">
+        {% assign redirectURL = item | Attribute:'RedirectURL','RawValue' %}
+        {% assign detailURL = '' %}
+        {% if redirectURL and redirectURL != empty %}{% assign detailURL = redirectURL %}{{}}{% else %}{% capture detailURL %}{{ LinkedPages.DetailPage }}?Item={{ item.Id }}{% endcapture %}{% endif %}
+        <a href="{{ detailURL }}" class="img-overlay img-circle">
+            {{ item | Attribute:'Image' }}
+            <img src="/Themes/HLF/Assets/images/trans.png" class="spacer img-responsive" />
+            <span>{{ item.Title }}</span>
+        </a>
+    </div>
+    {% endfor -%}
+</div>

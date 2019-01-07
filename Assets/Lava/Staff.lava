@@ -1,0 +1,64 @@
+﻿<div class="rst-teamlist row">
+    {% for item in Items %}
+    {% assign Person = item | Attribute:'PersonRecord','Object' %}
+    <div class="rst-team col-xs-6 col-sm-3">
+        <div class="rst-teaminfo visible-xs visible-sm">
+            <p class="rst-name">
+                {{ Person.NickName }} {{ Person.LastName }}
+                <span>{{ Person | Attribute:'StaffJobTitle' }}</span>
+            </p>
+        </div>
+        <div class="rst-teamimg">
+            {% assign overridepicture = item | Attribute:'Picture','RawValue' %}
+            {% if overridepicture and overridepicture != "" %}
+            <img src="/GetImage.ashx?guid={{ overridepicture }}" class="img-responsive img-circle" />
+            {% elseif Person.Photo and Person.PhotoId != " " %}
+            <img src="/GetImage.ashx?id={{ Person.PhotoId }}" class="img-responsive img-circle" />
+            {% elseif Person.Gender == 'Female' %}
+            <img src="/Assets/Images/person-no-photo-female.svg" class="img-responsive img-circle" />
+            {% else %}
+            <img src="/Assets/Images/person-no-photo-male.svg" class="img-responsive img-circle" />
+            {% endif %}
+            {% if item.Content and item.Content != '' %}<div class="rst-teaminfo-hidden">
+                {{ item.Content }}
+            </div>{% endif %}
+        </div>
+        <div class="rst-teaminfo">
+            <div class="rst-name">
+                <p class="hidden-xs hidden-sm">
+                    {{ Person.NickName }} {{ Person.LastName }}
+                    <span>{{ Person | Attribute:'StaffJobTitle' }}</span>
+                </p>
+                <ul class="margin-t-md">
+                    {% assign contactperson = item | Attribute:'ContactPerson','Object' %}
+                    <li><a href="mailto:{% if contactperson and contactperson != empty %}{{ contactperson.Email }}{% else %}{{ Person.Email }}{% endif %}"><i class="fa fa-envelope-o"></i></a></li>
+                    <li><a href="tel:{% if contactperson and contactperson != empty %}{{ contactperson | PhoneNumber:'Work' }}{% else %}{{ Person | PhoneNumber:'Work' }}{% endif %}"><i class="fa fa-phone"></i></a> </li>
+                    {% assign socialMediaLinks = item | Attribute:"SocialMedia" %}
+                    {% if socialMediaLinks == "Yes" %}
+                    {% assign twitter = Person | Attribute:'Twitter','RawValue' %}
+                    {% if twitter and twitter != '' %}
+                    <li><a href="{{ twitter | Trim }}" target="_blank"><i class="fa fa-twitter"></i></a></li>{% endif %}
+                    {% assign facebook = Person | Attribute:'Facebook','RawValue' %}
+                    {% if facebook and facebook != '' %}
+                    <li><a href="{{ facebook | Trim }}" target="_blank"><i class="fa fa-facebook"></i></a></li>{% endif %}
+                    {% assign instagram = Person | Attribute:'Instagram','RawValue' %}
+                    {% if instagram and instagram != '' %}
+                    <li><a href="{{ instagram | Trim }}" target="_blank"><i class="fa fa-instagram"></i></a></li>{% endif %}
+                    {% assign linkedin = Person | Attribute:'LinkedIn','RawValue' %}
+                    {% if linkedin and linkedin != '' %}
+                    <li><a href="{{ linkedin | Trim }}" target="_blank"><i class="fa fa-linkedin"></i></a></li>{% endif %}{% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% assign clearXS = forloop.index | Modulo:2 %}
+    {% if clearXS == 0 %}
+    <div class="clearfix visible-xs"></div>
+    {% endif %}
+    {% assign newRow = forloop.index | Modulo:4 %}
+    {% if newRow == 0 %}
+</div><div class="rst-teamlist row">
+    {% endif %}
+    {% endfor %}
+    <div class="clear"></div>
+</div>

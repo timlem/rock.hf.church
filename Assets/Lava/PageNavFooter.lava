@@ -1,0 +1,10 @@
+﻿<h4>{{ Page.Title }}</h4>
+<div>
+    {% if Page.Pages != empty %}
+    <ul>
+        {% for childPage in Page.Pages %}
+        <li id="menu-item-{{ childPage.Id }}"><a href="{{ childPage.Url }}">{{ childPage.Title }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>

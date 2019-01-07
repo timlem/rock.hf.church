@@ -1,0 +1,38 @@
+﻿{{ 'summary' | AddMetaTagToHead:'property','twitter:card' }}
+{% assign hideogtitle = CurrentPage | Attribute:'HideOGtitle' | AsBoolean %}{% unless hideogtitle %}{% capture pagetitle -%}{{ CurrentPage.PageTitle }} | {{ CurrentPage.Site }}{% endcapture -%}
+{{ pagetitle | AddMetaTagToHead:'property','og:title' }}{% endunless %}
+{{ 'article' | AddMetaTagToHead:'property','og:type' }}
+{% assign currentRoutesJSON = CurrentPage.PageRoutes | ToJSON -%}{% assign currentRoutes = currentRoutesJSON | FromJSON -%}
+{% assign routeUrl = "" -%}
+{% capture pageUrl -%}
+page/{{ CurrentPage.Id }}{% assign firstitem = true -%}
+{% for param in PageParameter -%}
+{% assign paramParts = param | PropertyToKeyValue -%}
+{% if paramParts.Key != "PageId" -%}
+{% for route in currentRoutes -%}
+{% if route.Route contains paramParts.Key and routeUrl == "" -%}
+{% capture routeUrl -%}
+{% capture paramKeyLava -%}{{{paramParts.Key}}}{% endcapture -%}
+{{ route.Route | Replace:paramKeyLava,paramParts.Value | Replace:"{","" }}{% endcapture -%}
+{% endif -%}
+{% endfor -%}
+{% if firstitem == "true" -%}?{% else -%}&{% endif -%}{{ paramParts.Key }}={{ paramParts.Value }}{% assign firstitem = false -%}
+{% endif -%}
+{% endfor -%}
+{% endcapture -%}
+{% if routeUrl != "" -%}
+    {% assign pageUrl = routeUrl -%}
+{% else -%}
+    {% for route in currentRoutes -%}
+        {% unless route.Route contains "{" -%}
+            {% assign pageUrl = route.Route -%}
+        {% endunless -%}
+    {% endfor -%}
+{% endif -%}
+{% capture pageUrl -%}{{ 'Global' | Attribute:'PublicApplicationRoot' }}{{ pageUrl | Trim }}{% endcapture -%}
+{{ pageUrl | AddMetaTagToHead:'property','og:url' }}
+{% assign SocialImage = CurrentPage | Attribute:'SocialImage','Object' -%}
+{% if SocialImage and SocialImage != '' -%}
+{{ SocialImage.Url | AddMetaTagToHead:'property','og:image' }}
+{% endif -%}
+{% if CurrentPage.Description and CurrentPage.Description != '' -%}{{ CurrentPage.Description | AddMetaTagToHead:'property','og:description' }}{% endif -%}

@@ -1,0 +1,16 @@
+﻿<h4>{{ Page.Title }}</h4>
+<div>
+    {% if IncludePageList != empty %}
+    <ul>
+        {% for pageItem in IncludePageList %}{% assign pageItemParts = pageItem | PropertyToKeyValue %}
+        <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="{{ pageItemParts.Value }}">{{ pageItemParts.Key }}</a> </li>
+        {% endfor %}
+    </ul>
+    {% elseif Page.Pages != empty %}
+    <ul>
+        {% for childPage in Page.Pages %}
+        <li><a href="{{ childPage.Url }}">{{ childPage.Title }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>

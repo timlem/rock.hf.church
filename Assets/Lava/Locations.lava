@@ -1,0 +1,42 @@
+﻿<div class="vcex-spacing" style="height:30px"></div>
+<div class="vc_row wpb_row vc_inner vc_row-fluid">
+    <div class="wpb_column vc_column_container vc_col-sm-12">
+        <div class="vc_column-inner wpex-clr">
+            <div class="wpb_wrapper wpex-vc-column-wrapper ">
+                <div class="vcex-spacing" style="height:15px"></div>
+                <div class="vcex-module vcex-heading vcex-heading-plain" style="color:#ffffff;font-family:Montserrat;font-size:48px;font-weight:300;text-align:center;">
+                    <span class="vcex-heading-inner clr"><div class="vcex-icon-wrap vcex-icon-position-left"><span class="fa fa-map-marker"></span></div>Locations</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="vcex-spacing" style="height:30px"></div>
+
+<div class="vcex-module vcex-image-grid wpex-row clr grid-style-default gap-30 wpex-rounded-images location-overlay" id="locations">
+    {% for item in Items %}
+    {% assign campusForLoop = 0 %}
+    {% for campus in Campuses %}{% if campus.IsActive %}{% assign campusForLoop = campusForLoop | Plus:1 %}
+    <div class="id-{{ campus.Id }} vcex-image-grid-entry span_1_of_3 col col-{% cycle '1','2','3' %}">
+        <figure class="vcex-image-grid-entry-figure clr">
+            <div class="vcex-image-grid-entry-img clr overlay-parent overlay-parent-title-center">
+                <a href="{{campus.Url}}" class="vcex-image-grid-entry-img">
+                    {{ campus | Attribute:'Image' }}
+                    <div class="overlay-title-center theme-overlay textcenter">
+                        <div class="overlay-table">
+                            <div class="overlay-table-cell"><span class="title">{{campus.Name}}</span></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </figure>
+    </div>{% endif %}
+    {% endfor %}
+
+    {% capture breakNow %}{{ campusForLoop | Modulo:3 }}{% endcapture %}
+    {% if breakNow == 0 -%}
+</div>
+<div class="vcex-module vcex-image-grid wpex-row clr grid-style-default gap-30 wpex-rounded-images location-overlay">
+    {% endif -%}
+    {% endfor -%}
+</div>

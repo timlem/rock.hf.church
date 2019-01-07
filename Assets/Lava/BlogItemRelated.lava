@@ -1,0 +1,32 @@
+﻿﻿{% assign blogId = PageParameter.item -%}
+﻿{% assign paramFriendlyUrl = PageParameter.FriendlyURL -%}
+{% unless blogId -%}
+	{% assign blogId = PageParameter.Item -%}
+{% endunless -%}
+{% unless blogId or paramFriendlyUrl -%}
+    {% assign firstItem = Items | First -%}
+    {% assign blogId = firstItem.Id -%}
+{% endunless -%}
+{% for item in Items %}{% assign friendlyUrl = item | Attribute:'FriendlyURL' -%}
+        {% if item.Id == blogId or paramFriendlyUrl == friendlyUrl -%}
+        {% assign CurItem = item %}{% endif -%}
+{% endfor %}
+{% assign curItemTags = CurItem | Attribute:'Tags' | Split:', ' -%}
+{% assign curItemCategories = CurItem | Attribute:'Category' | Split:',' -%}
+<div class="row blog-grid blog-related">{% assign shuffledItems = Items | Shuffle %}
+    {% assign i = 1 -%}
+    {% for item in shuffledItems %}{% if i > 3 %}{% break %}{% endif -%}
+    {% assign itemTags = item | Attribute:'Tags' | Split:', ' -%}{% assign tagMatch = false -%}
+    {% for tag in curItemTags -%}{% for itemtag in itemTags %}{% if tag == itemtag %}{% assign tagMatch = true %}{% break %}{% endif %}{% endfor %}{% endfor %}<!-- tag: {{ tagMatch }} -->
+    {% if item != CurItem and tagMatch %}{% assign i = i | Plus:1 -%}
+        {% include "~~/Assets/Lava/BlogItemRelated_include.lava" %}
+    {% endif %}
+    {% endfor %}
+    {% for item in shuffledItems %}{% if i > 3 %}{% break %}{% endif -%}
+    {% assign itemCats = item | Attribute:'Category' | Split:', ' -%}{% assign catMatch = false -%}
+    {% for cat in curItemCategories -%}{% for itemcat in curItemCategories %}{% if cat == itemcat %}{% assign catMatch = true %}{% break %}{% endif %}{% endfor %}{% endfor %}<!-- cat: {{ catMatch }} -->
+    {% if item != CurItem and catMatch %}{% assign i = i | Plus:1 -%}
+        {% include "~~/Assets/Lava/BlogItemRelated_include.lava" %}
+    {% endif %}
+    {% endfor %}
+</div>
