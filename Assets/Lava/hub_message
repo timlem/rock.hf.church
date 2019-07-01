@@ -1,0 +1,198 @@
+<style>
+
+.mejs-controls div.mejs-horizontal-volume-slider {
+
+		overflow: hidden;
+
+	}
+
+</style>
+
+ 
+
+{% assign item = Items | First %}
+
+{% if item  %}
+
+ 
+
+{% assign videoLink = item | Attribute:'VideoLink','RawValue' %}
+
+{% assign vimeoId = item | Attribute:'Podcast_VimeoId' %}
+
+{% assign audioLink = item | Attribute:'Podcast_AudioURL','RawValue' %}
+
+{% assign audioFile = item | Attribute:'AudioFile' %}
+
+{% assign audioFileRaw = item | Attribute:'AudioFile','RawValue' %}
+
+{% assign notesLink = item | Attribute:'Podcast_Notes','RawValue' %}
+
+{% assign notesFile = item | Attribute:'PDFFile' %}
+
+{% assign notesFileRaw = item | Attribute:'PDFFile','RawValue' %}
+
+{% assign scripture = item | Attribute:'Scripture' %}
+
+	{% assign discussionguide = item | Attribute:'DiscussionGuide' %}
+
+{% assign youtubeId = item | Attribute:'YoutubeId' %}
+
+ 
+
+<article class="message-detail">
+
+
+{% if youtubeId != '' %}
+	<div class = 'col-md-6  col-md-offset-3'>
+		<div class="embed-responsive embed-responsive-16by9 margin-b-xl">
+
+			{[ youtube id:'{{youtubeId}}' ]}<!-- <center><iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{youtubeId}}"></iframe></center> -->
+
+		</div>
+    <center><a class="btn btn-default btn-block margin-v-sm" href="/page/526" role="button"><i class="fa fa-question-circle fa-lg"></i><br>more resources</a></center>
+	</div>
+{% endif %}
+
+	{% if PageParameter.audio == '1' or (videoLink == '' and vimeoId == '') %}
+
+	{% if audioFile and audioFile != empty %}
+
+	{{ item | Attribute:'AudioFile' }}
+
+	{% elseif audioLink != '' %}
+
+		
+
+		<div class="col-md-4 col-md-offset-4">
+			
+			<audio src='{% unless audioLink contains ' http://' %}//traffic.libsyn.com/highlands/{% endunless %}{{ audioLink }}'
+
+			class='img img-responsive js-media-audio'
+
+			type='audio/mp3'
+
+			controls></audio></div>
+
+			<script>
+
+				Rock.controls.mediaPlayer.initialize();
+
+			</script>
+		
+		</div>
+			
+
+	{% endif %}
+
+	{% if vimeoId != '' or videoLink != '' %}<p>
+
+				<a href="{{ LinkedPages.DetailPage }}?item={{ item.Id }}" class="btn btn-default"><i class="fa fa-desktop" aria-hidden="true"></i> Watch Video</a>
+
+			</p>
+	{% endif %}
+
+	{% else %}
+
+	{% if vimeoId != '' %}
+
+			<div class="embed-responsive embed-responsive-16by9 margin-b-xl">
+
+				<iframe class="embed-responsive-item" src="//player.vimeo.com/video/{{ vimeoId | Trim }}?title=0&amp;byline=0&amp;portrait=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+
+			</div>
+
+	{% elseif videoLink != '' %}
+
+			<video src='{{ videoLink }}'
+
+				   class='js-media-video'
+
+				   type='video/mp4'
+
+				   controls='controls'
+
+				   style='width:100%;height:100%;'
+
+				   width='100%'
+
+				   height='100%'
+
+				   preload='auto'></video>
+
+			<script>
+
+				Rock.controls.mediaPlayer.initialize();
+
+			</script>
+
+	{% endif %}
+
+	{% if audioFileRaw != '' or audioLink != '' %}<p>
+
+				<a href="{{ LinkedPages.DetailPage }}?item={{ item.Id }}&audio=1" class="btn btn-default"><i class="fa fa-headphones" aria-hidden="true"></i> Listen to audio</a>
+
+			</p>
+	{% endif %}
+
+	{% endif %}
+	
+	<div class ="row">
+		<div class="col-md-4 col-md-offset-4">
+			<div class="hub-message-title">
+				<p>{{ item.Title }}
+			</div>
+			<div class="hub-message-meta">
+				{{ item | Attribute:'Podcast_Author' }} // {{ item.StartDateTime | Date:'M/d/yyyy' }}{% if scripture != '' %} // {{ item | Attribute:'Scripture' }} {% endif %}
+				</p>
+			</div>
+		<div class="message-resources col-md-6 col-md-offset-3">
+			<ul>{% if videoLink != '' or audioLink != '' or notesLink != '' or audioFileRaw != '' or notesFileRaw != '' %}
+			
+				{% if notesFileRaw != '' %}
+
+				<li><a href="/GetFile.ashx?guid={{ notesFileRaw }}" target="_blank"> Notes</a></li>
+
+				{% elseif notesLink != '' %}
+
+				<li><a href="{% unless notesLink contains '//' %}http://s3.amazonaws.com/highlandsfellowship/{% endunless %}{{ notesLink }} target="_blank"> Notes</a><br></li>
+
+				{% endif %}
+				
+				{% if discussionguide != '' %}
+
+				<li><a href={{ discussionguide }} target="_blank"> Discussion Guide</a></li>
+
+				{% elseif discussionguide != '' %}
+
+				<li><a href="{% unless discussionguide contains '//' %}http://s3.amazonaws.com/highlandsfellowship/{% endunless %}{{ notesLink }}"> Notes</a></li>
+
+				{% endif %}
+				
+				{% if videoLink != '' %}
+
+				<li><a href="{{ videoLink }}"> Video Download</a></li>
+
+				{% endif %}
+				{% if audioFileRaw != '' %}
+
+				<li><a href="/GetFile.ashx?guid={{ audioFileRaw }}&attachment=true"> Audio Download</a></li>
+
+				{% elseif audioLink != '' %}
+
+				<li><a href="{% unless audioLink contains 'http://' %}http://traffic.libsyn.com/highlands/{% endunless %}{{ audioLink }}"> Audio Download</a></li>
+
+				{% endif %}
+			
+			{% endif %}
+			
+		</div>
+	</div>
+
+</article>
+
+{% else %}
+
+<h1>Could not find message.</h1>
+
+{% endif %}
