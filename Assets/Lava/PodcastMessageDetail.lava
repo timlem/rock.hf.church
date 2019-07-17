@@ -1,4 +1,4 @@
-﻿<style>
+<style>
 
 .mejs-controls div.mejs-horizontal-volume-slider {
 
@@ -37,6 +37,8 @@
     {% assign discussionguide = item | Attribute:'DiscussionGuide' %}
 
 {% assign youtubeId = item | Attribute:'YoutubeId' %}
+
+{% assign HFConyoutubeid = item | Attribute:'HFConversationYouTubeId' %}
 
  
 
@@ -218,7 +220,10 @@
 
                         {% endif %}
 
- 
+                        {% if HFConyoutubeid != '' %}
+                            <a href=https://www.youtube.com/watch?v={{ HFConyoutubeid }} class="list-group-item" target="_blank"><i class="fa fa-file-text-o"></i> HFConversation</a>
+                        
+                        {% endif %}
 
                     </div>
 
