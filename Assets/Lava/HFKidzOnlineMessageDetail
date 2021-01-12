@@ -1,0 +1,222 @@
+<style>
+
+.mejs-controls div.mejs-horizontal-volume-slider {
+
+        overflow: hidden;
+
+    }
+
+</style>
+
+{% assign item = Items | First %}
+
+{% if item  %}
+
+ {% assign elem1vid = item | Attribute:'ElemVid1','RawValue' %}
+ {% assign elem2vid = item | Attribute:'ElemVid2','RawValue' %}
+ {% assign elem3vid = item | Attribute:'ElemVid3','RawValue' %}
+ {% assign elem4vid = item | Attribute:'ElemVid4','RawValue' %}
+ {% assign pres1vid = item | Attribute:'PreSVid1','RawValue' %}
+ {% assign pres2vid = item | Attribute:'PreSVid2','RawValue' %}
+ {% assign pres3vid = item | Attribute:'PreSVid3','RawValue' %}
+ {% assign pres4vid = item | Attribute:'PreSVid4','RawValue' %}
+ 
+ {% assign elemresource1link = item | Attribute:'ElemResourceLink1','RawValue' %}
+ {% assign elemresource2link = item | Attribute:'ElemResourceLink2','RawValue' %}
+ {% assign elemresource3link = item | Attribute:'ElemResourceLink3','RawValue' %}
+ {% assign elemresource4link = item | Attribute:'ElemResourceLink4','RawValue' %}
+ 
+ {% assign presresource1link = item | Attribute:'PreSResourceLink1','RawValue' %}
+ {% assign presresource2link = item | Attribute:'PreSResourceLink2','RawValue' %}
+ {% assign presresource3link = item | Attribute:'PreSResourceLink3','RawValue' %}
+ {% assign presresource4link = item | Attribute:'PreSResourceLink4','RawValue' %}
+ 
+
+<article class="message-detail">
+
+<div class="row margin-t-lg">
+     <div class="col-md-6 col-md-offset-3">
+        <img src="{{ item | Attribute:'Image','Url' }}" class="img-responsive padding-v-sm" alt="{{ item.Title }}">
+    </div>
+        <div class="col-md-4">
+
+                {% if videoLink != '' or audioLink != '' or notesLink != '' or audioFileRaw != '' or notesFileRaw != '' %}
+
+                <div class="panel panel-default">
+
+                    <div class="panel-heading">Elementary Downloads &amp; Resources</div>
+
+                    <div class="list-group">
+
+ 
+                        {% if elemresource1link != '' %}
+
+                        <a href={{ elemresource1link }} class="list-group-item" target="_blank"><i class="fa fa-file-text-o"></i> {{ item | Attribute:'ElemResourceName1' }}</a>
+        {% endif %}
+        {% if elemresource2link != '' %}
+
+                        <a href={{ elemresource2link }} class="list-group-item" target="_blank"><i class="fa fa-file-text-o"></i> {{ item | Attribute:'ElemResourceName2' }}</a>
+        {% endif %}
+        {% if elemresource3link != '' %}
+
+                        <a href={{ elemresource3link }} class="list-group-item" target="_blank"><i class="fa fa-file-text-o"></i> {{ item | Attribute:'ElemResourceName3' }}</a>
+        {% endif %}
+        {% if elemresource4link != '' %}
+
+                        <a href={{ elemresource4link }} class="list-group-item" target="_blank"><i class="fa fa-file-text-o"></i> {{ item | Attribute:'ElemResourceName4' }}</a>
+        {% endif %}
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                        <div class="panel-heading">PreSchool Downloads &amp; Resources</div>
+
+                        <div class="list-group">
+
+                        {% if presresource1link != '' %}
+
+                        <a href={{ presresource1link }} class="list-group-item" target="_blank"><i class="fa fa-file-text-o"></i> {{ item | Attribute:'PreSResourceName1' }}</a>
+        {% endif %}
+        {% if presresource2link != '' %}
+
+                        <a href={{ presresource2link }} class="list-group-item" target="_blank"><i class="fa fa-file-text-o"></i> {{ item | Attribute:'PreSResourceName2' }}</a>
+        {% endif %}
+        {% if presresource3link != '' %}
+
+                        <a href={{ presresource3link }} class="list-group-item" target="_blank"><i class="fa fa-file-text-o"></i> {{ item | Attribute:'PreSResourceName3' }}</a>
+        {% endif %}
+        {% if presresource4link != '' %}
+
+                        <a href={{ presresource4link }} class="list-group-item" target="_blank"><i class="fa fa-file-text-o"></i> {{ item | Attribute:'PreSResourceName4' }}</a>
+        {% endif %}
+
+                        
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+            <div class="col-md-8">
+                <h1>{{ item.Title }}</h1>
+                <p>
+                    <strong> {{ item.StartDateTime | Date:'M/d/yyyy' }}</strong>
+                </p>
+                <p>
+                    {{ item.Content }}
+                </p>
+            </div>
+
+            
+
+        </div>
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>Elementary Videos</h2>
+        
+        <!-- ELEMENTARY VIDEO LOOP -->
+        {% if elem1vid != '' %}
+
+        <div class="embed-responsive embed-responsive-16by9 margin-b-xl">
+
+            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{elem1vid}}"></iframe>
+
+        </div>
+
+{% endif %}
+
+{% if elem2vid != '' %}
+
+        <div class="embed-responsive embed-responsive-16by9 margin-b-xl">
+
+            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{elem2vid}}"></iframe>
+
+        </div>
+
+{% endif %}
+
+{% if elem3vid != '' %}
+
+        <div class="embed-responsive embed-responsive-16by9 margin-b-xl">
+
+            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{elem3vid}}"></iframe>
+
+        </div>
+
+{% endif %}
+
+{% if elem4vid != '' %}
+
+        <div class="embed-responsive embed-responsive-16by9 margin-b-xl">
+
+            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{elem4vid}}"></iframe>
+
+        </div>
+
+{% endif %}
+    </div>
+    <div class="col-md-6">
+        <h2>PreSchool Videos</h2>
+        
+        {% if pres1vid != '' %}
+
+        <div class="embed-responsive embed-responsive-16by9 margin-b-xl">
+
+            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{pres1vid}}"></iframe>
+
+        </div>
+
+        {% endif %}
+
+{% if pres2vid != '' %}
+
+        <div class="embed-responsive embed-responsive-16by9 margin-b-xl">
+
+            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{pres2vid}}"></iframe>
+
+        </div>
+
+{% endif %}
+
+{% if pres3vid != '' %}
+
+        <div class="embed-responsive embed-responsive-16by9 margin-b-xl">
+
+            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{pres3vid}}"></iframe>
+
+        </div>
+
+{% endif %}
+
+{% if pres4vid != '' %}
+
+        <div class="embed-responsive embed-responsive-16by9 margin-b-xl">
+
+            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{pres4vid}}"></iframe>
+
+        </div>
+
+{% endif %}
+    </div>
+</div>
+
+
+
+
+ 
+
+ 
+        
+
+</article>
+
+ 
+
+ 
+
+{% else %}
+
+<h1>Could not find message.</h1>
+
+{% endif %}
