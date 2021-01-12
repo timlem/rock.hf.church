@@ -34,7 +34,9 @@
 
 {% assign scripture = item | Attribute:'Scripture' %}
 
-    {% assign discussionguide = item | Attribute:'DiscussionGuide' %}
+{% assign discussionguide = item | Attribute:'DiscussionGuide' %}
+
+{% assign discussionguidelg = item | Attribute:'DiscussionGuideLG' %}
 
 {% assign youtubeId = item | Attribute:'YoutubeId' %}
 
@@ -219,6 +221,13 @@
                         <a href="{% unless discussionguide contains '//' %}http://s3.amazonaws.com/highlandsfellowship/{% endunless %}{{ notesLink }}" class="list-group-item"><i class="fa fa-file-text-o"></i> Notes</a>
 
                         {% endif %}
+                        
+                        {% if discussionguidelg != '' %}
+
+                        <a href={{ discussionguidelg }} class="list-group-item" target="_blank"><i class="fa fa-file-text-o"></i> Discussion Guide</a>
+
+                        {% endif %}
+                        
 
                         {% if HFConyoutubeid != '' %}
                             <a href=https://www.youtube.com/watch?v={{ HFConyoutubeid }} class="list-group-item" target="_blank"><i class="fa fa-file-text-o"></i> HFConversation</a>
