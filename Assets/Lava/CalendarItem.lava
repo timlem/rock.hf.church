@@ -99,7 +99,11 @@
                         <h3> Details</h3>
                         <dl>
                             <dt> Date:</dt>
-                            <dd> <abbr class="published dtstart" title="{{ FirstDate | Date:'yyyy-MM-dd' }}"> {{ FirstDate | Date:'MMMM d, yyyy' }} </abbr></dd>
+                            <dd> <abbr class="published dtstart" title="{{ FirstDate | Date:'yyyy-MM-dd' }}"> {% if eventOccurrenceSummary.Date != eventOccurrenceSummary.EndDate %}
+        {{ eventOccurrenceSummary.Date | Date: 'MMM d' }} - {{ eventOccurrenceSummary.EndDate | Date: 'MMM d' }}
+      {% else %}
+        {{ eventOccurrenceSummary.DateTime | Date: 'ddd, MMM d / h:mmtt' }}
+      {% endif %} </abbr></dd>
                             <dt> Time:</dt>
                             <dd>
                                 <div class="published dtstart">{{ FirstDate | Date:'h:mm tt' }}</div>
