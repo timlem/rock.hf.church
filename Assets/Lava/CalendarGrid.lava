@@ -30,11 +30,11 @@
                     </h2>
                     <div class="event-meta">
                         <div class="event-schedule-details">
-                            {% if eventItemOccurrence.EventItemOccurrence.Schedule.EffectiveStartDate != eventItemOccurrence.EventItemOccurrence.Schedule.EffectiveEndDate %}
-                            <span class="event-date-start">{{ eventItemOccurrence.EventItemOccurrence.Schedule.EffectiveStartDate  | Date: 'MMMM d, yyyy' }}</span> - <span class="event-time">{{ eventItemOccurrence.EventItemOccurrence.Schedule.EffectiveEndDate  | Date: 'MMMM d, yyyy'}}</span>
-                            {% else %}
-                            <span class="event-date-start">{{ eventItemOccurrence.Date | Date: 'MMMM d, yyyy' }} @ {{ eventItemOccurrence.Time }}</span><!-- - <span class="event-time">xx:00 am</span>-->
-                            {% endif %}
+                            {% if eventItemOccurrence.Date != eventItemOccurrence.EndDate %}
+            {{ eventItemOccurrence.Date | Date: 'MMM d' }} - {{ eventItemOccurrence.EndDate | Date: 'MMM d' }}
+          {% else %}
+            {{ eventItemOccurrence.Date | Date: 'MMM d' }}
+          {% endif %}
                         </div>
                     </div>
                     <div class="event-content">{{eventItemOccurrence.Summary}}</div>
