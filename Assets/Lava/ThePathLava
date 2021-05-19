@@ -1,0 +1,74 @@
+{% assign now = 'Now' | Date %}
+<div id="InPerson">
+</div><center><h2>In Person Gatherings</h2></center>
+{% assign displayMsg = "True" %}
+{% eventitemoccurrence where:'EventItemId == "168" && Location == ""'' %}
+        {% assign eioitems = eventitemoccurrenceItems | sort:'CampusName' %}
+        {% for eioitems in eioitems %}
+            {% if eioitems.Schedule.EffectiveStartDate <=  now }} %}{% continue %}{% endif %}
+                <div class='col-md-3'>
+                    <div class='panel panel-default'>
+                        <div class='panel-body'>
+                            {% assign displayMsg = "False" %}
+                            <center><i class="fa fa-hiking fa-5x"></i></center>
+                            <center><h1>{{ eioitems.Campus.Name }}</h1></center>
+                            <center><h3>{{ eioitems.Schedule.iCalendarContent | DatesFromICal | First | Date: 'MMM. d' }}</h3></center>
+                            <center><h2>{{ eioitems.Schedule.iCalendarContent | DatesFromICal | First | Date: 'h:mmtt' | Downcase }}</h2></center>
+                            <center><a class="btn btn-primary margin-all-md" href="/page/414?EventOccurrenceId={{ eioitems.Id }} " role="button">Sign Up</a></center>
+                            <center><p>Meets every {{ eioitems.Schedule.iCalendarContent | DatesFromICal | First | Date: 'dddd' }} at the {{ eioitems.Campus.Name }} Campus at {{ eioitems.Schedule.iCalendarContent | DatesFromICal | First | Date: 'h:mmtt' | Downcase }}
+for four weeks that starts on {{ eioitems.Schedule.iCalendarContent | DatesFromICal | First | Date: 'MMM. d' }}</p></center>
+                        </div>
+                    </div>
+                </div>
+        {% endfor %}
+        {% if displayMsg == 'True' %}
+             <div class="col-md-6 col-md-offset-3">
+                <p>Currently there are no sign ups available. If you would like to learn more or be notified of upcoming in person gatherings let us know <a href="mailto:tlemons@hf.church?subject=Path Online ">HERE</a></p>       
+             </div>
+                    {% else %}
+                    {% endif %}
+{% endeventitemoccurrence %}
+<div style="clear: both;"></div>
+{% assign displayMsg = "True" %}
+<div id="Online">
+</div><center><h2>Online Gatherings</h2></center>
+{% eventitemoccurrence where:'EventItemId == "168" && Location *= "Online"' sort:'Schedule.iCalendarContent' %}
+    {% assign eioitems = eventitemoccurrenceItems | OrderBy:'NextStartDateTime' %}
+    {% for eioitems in eioitems %}
+        {% if eioitems.Schedule.FirstStartDateTime <=  now }} %}{% continue %}{% endif %}
+        <div class='col-md-3'>
+                <div class='panel panel-default'>
+                    <div class='panel-body'>
+                        
+                            <center><i class="fa fa-hiking fa-5x"></i></center>
+                            {% assign displayMsg = "False" %}
+                            <center><h1>{{ eioitems.Schedule.iCalendarContent | DatesFromICal | First | Date: 'dddd' | Pluralize }}</h1></center>
+                            <center><h3>{{ eioitems.Schedule.iCalendarContent | DatesFromICal | First | Date: 'MMM. d' }}</h3></center>
+                            <center><h2>{{ eioitems.Schedule.iCalendarContent | DatesFromICal | First | Date: 'htt' | Downcase }}</h2></center>
+                            <center><a class="btn btn-primary margin-all-md" href="/page/414?EventOccurrenceId={{ eioitems.Id }} " role="button">Sign Up</a></center>
+                            <center><p>Meets every {{ eioitems.Schedule.iCalendarContent | DatesFromICal | First | Date: 'dddd' }} {{ eioitems.Location }} at {{ eioitems.Schedule.iCalendarContent | DatesFromICal | First | Date: 'htt' | Downcase }}
+for four weeks beginning on {{ eioitems.Schedule.iCalendarContent | DatesFromICal | First | Date: 'MMM. d' }}</p></center>
+                            
+                        </div>
+                    </div>
+                </div>
+        {% endfor %}
+        {% if displayMsg == 'True' %}
+             <div class="col-md-6 col-md-offset-3">
+                <p>Currently there are no sign ups available. If you would like to learn more or be notified of upcoming online gatherings let us know <a href="mailto:tlemons@hf.church?subject=Path Online ">HERE</a></p>       
+             </div>
+                    {% else %}
+                    {% endif %}
+{% endeventitemoccurrence %}
+<div style="clear: both;"></div>
+<div class="row">
+    <center><p><strong>Do none of these times work for you?</strong> <a href="mailto:tlemons@hf.church?subject=Interested in Path">Let us know here</a></p></center>
+</div>
+<div class="row">
+    <h1 style="text-align: center; "><br><span style="font-size: 24px;"><b><span style="font-size: 18px;">Download The PATH booklet.</span></b></span><br></h1><span style="font-size: 36px;">
+    </span>
+    <p style="text-align: center;"><b><a href="https://res.cloudinary.com/hfchurch/image/upload/v1601425779/The_PATH_digital_booklet_z4fmyx.pdf" class="btn btn-default btn-md"><i class="">
+</i>DOWNLOAD</a></b></p>
+    <p></p>
+</div>
+    
