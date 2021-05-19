@@ -1,0 +1,66 @@
+<div class="container-fluid">
+    <div class="row">
+        {% for group in Groups %}
+            {% if group == '214337' %}{% continue %}{% endif %}
+                <div class="col-lg-4 col-sm-6">
+                    <div class="panel panel-default" style="height:250px;">
+                        <div class="panel-heading" style="height:33%;">
+                            {% assign familyFriendly = group | Attribute:'FamilyFriendly' | AsString %}
+    						{% if familyFriendly == "No" %}
+    							{% assign kidsWelcome = False %}
+    						{% else %}
+    							{% assign kidsWelcome = True %}
+    						{% endif %}
+                            {% assign espanol = group | Attribute:'Espanol' | AsBoolean %}
+                            {% if kidsWelcome == True or espanol == True %}
+                            <div class="row">
+                                <div class="col-xs-9" style="padding-right:0;">
+                                    <strong>{{ group.Name }}</strong>
+                                </div>
+                                <div class="col-xs-3 text-right pull-right" style="padding-left:0;">
+                                    
+                                    {% if kidsWelcome == True %}
+                                        <a class="" href="#" tabindex="-1" data-toggle="tooltip" data-placement="auto" data-container="body" data-html="true" title="" data-original-title="Family Friendly"><i class="fas fa-child"></i></a>&nbsp;
+                                    {% endif %}
+                                    {% if espanol == True %}
+                                        <a class="" href="#" tabindex="-1" data-toggle="tooltip" data-placement="auto" data-container="body" data-html="true" title="" data-original-title="Spanish group">
+                                            <div class="fa-xs" style="font-size:.5em; display:inline-block;">
+                                                <span class="fa-stack">
+                                                    <i class="fas fa-comment-alt fa-stack-2x"></i>
+                                                    <strong class="fa-stack-1x" style="margin-top:-.2em; color:#f5f5f5; font-size:1.3em;">es</strong>
+                                                </span>
+                                            </div>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="row">
+                                <div class="col-xs-12"><strong>{{ group.Name }}</strong></div>
+                            </div>
+                            {% endif %}
+                            <div class="row">
+                                <div class="col-xs-12" style="line-height:66%;">
+    								{% assign projectDateTime = group.Schedule.NextStartDateTime %}
+                                    <small>{{ projectDateTime | Date:'dddd, MMM d @ h:mm tt'}}</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="panel-body" style="position:relative; height:66%;">
+                            <p>{{ group.Description | TruncateWords:19,'...' }}</p>
+                            <div style="position:absolute; bottom:0;">
+                                <div class="pull-right;">
+                                    {% assign projectCampus = group.Campus.Name %}
+                                    {{ projectCampus }} Campus Opportunity
+                                </div>
+                                <div class ='pull-left'>
+                                <a href="{{ LinkedPages.GroupDetailPage }}?GroupId={{ group.Id }}">More Info <i class="fa fa-chevron-right fa-xs"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        {% endfor %}
+    </div>
+</div>
