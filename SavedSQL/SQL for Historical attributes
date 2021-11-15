@@ -1,0 +1,13 @@
+-- SQL with Brad's Help to look at historical values of first time visits
+SELECT
+    p.FirstName, p.LastName, p.CreatedDateTime, av.[Value], av.Id, avh.CurrentRowIndicator, MIN (avh.[Value])
+FROM
+    [Person] p 
+    INNER JOIN [AttributeValue] av ON av.EntityId = p.Id
+    AND
+    av.AttributeId = 717
+    INNER JOIN [AttributeValueHistorical] avh ON avh.AttributeValueId = av.Id
+GROUP BY
+    p.FirstName, p.LastName, p.CreatedDateTime, av.[Value], av.Id, avh.CurrentRowIndicator
+WHERE
+    p.FirstName = 'Fred'
