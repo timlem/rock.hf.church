@@ -1,0 +1,16 @@
+<!-- From  Michael Allen https://chat.rockrms.com/channel/engagement?msg=RQyZ3C6K94S84XgA8 -->
+
+<!-- See all steps person has completed -->
+{% step expression:'PersonAlias.PersonId == {{ Person.Id }}' securityenabled:'false' %}
+    {% for step in stepItems %}
+        Completed {{ step.StepType.Name }} on {{ step.StartDateTime | Date:'sd' }}<br/>
+    {% endfor %}
+{% endstep %}
+
+<!-- If you want to limit it to a specific type, add where:'StepTypeId == 123'. If you need to limit it to steps under a specific program, add this to the end of the expression: && StepType.StepProgramId == 123 -->
+
+
+<!-- See if someone has completed any steps of step type -->
+{% step where:'StepTypeId == 123' expression:'PersonAlias.PersonId == {{ Person.Id }}' securityenabled:'false' count:'true' %}
+    {% if count > 0 %}Yes{% else %}No{% endif %}
+{% endstep %}
